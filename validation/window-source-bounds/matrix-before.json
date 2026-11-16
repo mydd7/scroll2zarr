@@ -1,0 +1,858 @@
+[
+  {
+    "case": "upper-x",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (4, 4, 4), got (3, 4, 4)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (5, 16, 16), got (3, 16, 16)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 4), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 16), got (3, 16, 8)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": false,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (4, 4, 4), got (3, 4, 4)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (5, 16, 16), got (3, 16, 16)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 4), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 16), got (3, 16, 8)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": false,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (4, 4, 4), got (3, 4, 4)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (5, 16, 16), got (3, 16, 16)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 4), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 16), got (3, 16, 8)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": true,
+    "ome": false,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (4, 4, 4), got (3, 4, 4)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 4, 4), got (3, 4, 0)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 4,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  },
+  {
+    "case": "upper-x",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-all",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      5,
+      35,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (5, 16, 16), got (3, 16, 16)"
+  },
+  {
+    "case": "upper-border",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      40
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 8), got (3, 16, 0)"
+  },
+  {
+    "case": "fully-outside",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      44
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 4), got (3, 16, 0)"
+  },
+  {
+    "case": "upper-x-negative-shift",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": false,
+    "error": "parameter 'value': expected array with shape (3, 16, 16), got (3, 16, 8)"
+  },
+  {
+    "case": "inside-shifted",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      28
+    ],
+    "passed": true,
+    "nonzero_voxels": 1920,
+    "pixel_sha256": "d8c9243bda3f8b57881561aa7bdd4687334dbd28edcdd58ee41580188a73392a"
+  },
+  {
+    "case": "identity",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      32
+    ],
+    "passed": true,
+    "nonzero_voxels": 3072,
+    "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81"
+  },
+  {
+    "case": "inside-negative-shift",
+    "compressed": true,
+    "ome": true,
+    "chunk_size": 16,
+    "shape": [
+      3,
+      32,
+      16
+    ],
+    "passed": true,
+    "nonzero_voxels": 1536,
+    "pixel_sha256": "75525bcac5ca4be9baaa16388d71017610accabc7458692e84afbeb2800aab77"
+  }
+]

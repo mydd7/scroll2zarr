@@ -1,0 +1,96 @@
+{
+  "branch": "fix/window-source-bounds",
+  "commit": "cdde9dd43adf0b16564f2ba30ebd9918c4f8453a",
+  "fixture": {
+    "volume": "s3://vesuvius-challenge-open-data/PHerc0800/volumes/20250521135224-8.640um-1.2m-116keV-masked.zarr/",
+    "surface": "20251029010146-auto_grown_20251029010146642",
+    "mesh": "https://vesuvius-challenge-open-data.s3.amazonaws.com/PHerc0800/segments/20251029010146-auto_grown_20251029010146642/mesh/20251029010146-on-20250521135224-8.64um.tifxyz/",
+    "render": "vc_render_tifxyz --scale 1 --group-idx 0 --num-slices 21 --flip-normals --voxel-size 8.64 --voxel-unit micrometer",
+    "crop_yx": [
+      400,
+      432,
+      400,
+      432
+    ],
+    "render_layers": [
+      0,
+      1,
+      2
+    ],
+    "sha256": {
+      "00.tif": "d7681239428acdddf9c96cbca518a246ed55abbada19c9583f29e61c2fe0d95f",
+      "01.tif": "2bcae641593434786ffc59c0ca17cf9c6c79c23c3638cd84255bccb228f1b388",
+      "02.tif": "bda1267ceccdcfe97f2cbf3e9c5020bf9ff3633691502711072cf0d0c9ec96ea"
+    }
+  },
+  "regression_3d_cases": {
+    "total": 64,
+    "before_passed": 24,
+    "before_failed": 40,
+    "after_passed": 64
+  },
+  "channel_cases": {
+    "before_passed": 0,
+    "after_passed": 8,
+    "cases_per_phase": 8,
+    "data": "Two adjacent two-slice slabs from the same real CT fixture; channel 1 selected"
+  },
+  "cli": [
+    {
+      "phase": "before",
+      "exit_code": 1,
+      "shape": [
+        3,
+        32,
+        40
+      ],
+      "nonzero_voxels": 384,
+      "volume_sha256": "17dc2bc57f1d9a2f92aa02fb2f2b9d4e193687e84f163f5853e5503bd28debd7",
+      "middle_slice_nonzero": 128
+    },
+    {
+      "phase": "after",
+      "exit_code": 0,
+      "shape": [
+        3,
+        32,
+        40
+      ],
+      "nonzero_voxels": 3072,
+      "volume_sha256": "a17868edf2a07cb59a449e7e7ab12265b3c931a165479c13b640f08aa5ff4353",
+      "middle_slice_nonzero": 1024
+    }
+  ],
+  "combined": {
+    "commit": "5c5fb46bcf97da68f3fe5a3a01397e515c2ddb71",
+    "tests_passed": 6,
+    "real_ct_subcases": 107,
+    "transform_control_cases_passed": 16,
+    "exit_code": 0,
+    "components": {
+      "fix/converter-dependencies": "07dc3ab83da731b620535ddb0197b0ade70eb6b4",
+      "fix/single-axis-crop": "be3a23922d4d2e7e8ef814786bb9c445eaac181f",
+      "fix/missing-depth-slices": "98b2d7fd82701f260d976e961b8997f655bd5f10",
+      "fix/uint8-final-chunk": "d94be2d57821137b6d59a8fb31199a3b3ddd5d06",
+      "fix/gaussian-chunk-boundaries": "9f319a14ede4dec1556432349b8a2358a401c0a5",
+      "fix/window-source-bounds": "cdde9dd43adf0b16564f2ba30ebd9918c4f8453a"
+    },
+    "tree_sha": "90a221db8efdcaf6a0899829566a72ea6e2c15d6",
+    "reproduction_patch": "combined-validation.patch",
+    "reproduction_patch_sha256": "e0178a048811111e698b145d5a540665244192a26bbb5b864926ab71c013c8df",
+    "reproduction_tree_matches": true
+  },
+  "platform": "Windows, Python 3.12, Zarr 2.18.7",
+  "limitations": [
+    "Linux and macOS were not run",
+    "Requested output dimensions are preserved; uncovered coordinates are zero-filled",
+    "Negative starting coordinates remain rejected by the existing validation"
+  ],
+  "baseline_commit": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+  "regression_tests": {
+    "before_tests": 2,
+    "before_errors": 48,
+    "after_tests_passed": 2,
+    "real_ct_subcases": 72
+  }
+}
