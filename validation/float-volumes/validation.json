@@ -1,0 +1,1584 @@
+{
+  "base_commit": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+  "source_commit": "8de1ea63bed049329b9d87633f5ac7a777438b23",
+  "environment": {
+    "platform": "Windows x64",
+    "python": "3.12.10",
+    "device": "CPU",
+    "threads": 2,
+    "numpy": "2.5.4",
+    "zarr": "2.18.7",
+    "numcodecs": "0.15.2",
+    "scikit-image": "0.26.0",
+    "tifffile": "2026.11.12",
+    "fsspec": "2026.9.0"
+  },
+  "data": {
+    "volume": "s3://vesuvius-challenge-open-data/PHerc0800/volumes/20250521135224-8.640um-1.2m-116keV-masked.zarr/",
+    "surface": "20251029010146-auto_grown_20251029010146642",
+    "mesh": "https://vesuvius-challenge-open-data.s3.amazonaws.com/PHerc0800/segments/20251029010146-auto_grown_20251029010146642/mesh/20251029010146-on-20250521135224-8.64um.tifxyz/",
+    "render": "vc_render_tifxyz --scale 1 --group-idx 0 --num-slices 21 --flip-normals --voxel-size 8.64 --voxel-unit micrometer",
+    "crop_yx": [
+      400,
+      432,
+      400,
+      432
+    ],
+    "render_layers": [
+      0,
+      1,
+      2
+    ],
+    "sha256": {
+      "00.tif": "d7681239428acdddf9c96cbca518a246ed55abbada19c9583f29e61c2fe0d95f",
+      "01.tif": "2bcae641593434786ffc59c0ca17cf9c6c79c23c3638cd84255bccb228f1b388",
+      "02.tif": "bda1267ceccdcfe97f2cbf3e9c5020bf9ff3633691502711072cf0d0c9ec96ea"
+    }
+  },
+  "derived_inputs": {
+    "float32": "CT.astype(float32) / 255",
+    "float64": "CT.astype(float64) / 255",
+    "channel": "stack([normalized, normalized - 1]), exported channel 1",
+    "uint16": "CT.astype(uint16) * 257, exported with --bytes 1"
+  },
+  "data_scope": "Three 32x32 rendered CT layers. Floating inputs are normalized derivatives, not published Lasagna fields. Tests use one source chunk to keep the separate Gaussian chunk-boundary issue outside this comparison.",
+  "regression_tests": {
+    "methods": 5,
+    "data_scenarios": 28,
+    "before_subcase_failures": 15,
+    "after_passed_methods": 5
+  },
+  "cli": {
+    "before": {
+      "source_revision": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+      "source_file_sha256_lf": "68fe7320afa1fc63cb241df0c1abe41e1a0f3d4c5b7e9f2e70779f251202f5c3",
+      "ct_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+      "cases": [
+        {
+          "case": "float32",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f3cc103136423a57975750907ebc1d367e2985ac6338976d4d5a439f50323f4a",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float32",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f3cc103136423a57975750907ebc1d367e2985ac6338976d4d5a439f50323f4a",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float32",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f3cc103136423a57975750907ebc1d367e2985ac6338976d4d5a439f50323f4a",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float32",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f3cc103136423a57975750907ebc1d367e2985ac6338976d4d5a439f50323f4a",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float64",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float64",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float64",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "float64",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+              "nonzero_voxels": 0,
+              "min": 0.0,
+              "max": 0.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "channel",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "542288a792c2de1c156f6f47228b229a0228ccf6ba8fdb9696b4d53d65646da5",
+              "nonzero_voxels": 3072,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d55e700e94f9d6b3ee9ab86dbdfca2df8a357a04ea5631c537cf494813306e2f",
+              "nonzero_voxels": 512,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "bcaf3e7e9a8dec5cd26e35effbfebbedee051dc6ee84fe23f78c9d00491287f9",
+              "nonzero_voxels": 64,
+              "min": -1.0,
+              "max": -1.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "channel",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "542288a792c2de1c156f6f47228b229a0228ccf6ba8fdb9696b4d53d65646da5",
+              "nonzero_voxels": 3072,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d55e700e94f9d6b3ee9ab86dbdfca2df8a357a04ea5631c537cf494813306e2f",
+              "nonzero_voxels": 512,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "bcaf3e7e9a8dec5cd26e35effbfebbedee051dc6ee84fe23f78c9d00491287f9",
+              "nonzero_voxels": 64,
+              "min": -1.0,
+              "max": -1.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "channel",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "542288a792c2de1c156f6f47228b229a0228ccf6ba8fdb9696b4d53d65646da5",
+              "nonzero_voxels": 3072,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d55e700e94f9d6b3ee9ab86dbdfca2df8a357a04ea5631c537cf494813306e2f",
+              "nonzero_voxels": 512,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "bcaf3e7e9a8dec5cd26e35effbfebbedee051dc6ee84fe23f78c9d00491287f9",
+              "nonzero_voxels": 64,
+              "min": -1.0,
+              "max": -1.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "channel",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "542288a792c2de1c156f6f47228b229a0228ccf6ba8fdb9696b4d53d65646da5",
+              "nonzero_voxels": 3072,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d55e700e94f9d6b3ee9ab86dbdfca2df8a357a04ea5631c537cf494813306e2f",
+              "nonzero_voxels": 512,
+              "min": -1.0,
+              "max": -1.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "bcaf3e7e9a8dec5cd26e35effbfebbedee051dc6ee84fe23f78c9d00491287f9",
+              "nonzero_voxels": 64,
+              "min": -1.0,
+              "max": -1.0
+            }
+          ],
+          "level0_equal_to_input": false,
+          "level0_different_voxels": 3072
+        },
+        {
+          "case": "uint16",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "c67028de939e73e79860a7a3b4156a2847acc53b09f47f9937a4e7cd89a91aee",
+              "nonzero_voxels": 512,
+              "min": 47.0,
+              "max": 147.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d524602f028e498c09d18095cc7bb25774019a6804a5e3cf067d95786d515f8a",
+              "nonzero_voxels": 64,
+              "min": 56.0,
+              "max": 136.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "2ebe62b54e470a81eb060df0b44ee59123e475030c9d309a7e6d5732cb8b3d32",
+              "nonzero_voxels": 512,
+              "min": 45.0,
+              "max": 145.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d7c72825b57c7474471ccc4d1be2a9cb2dc34796920b7e836e0746dbff064f13",
+              "nonzero_voxels": 64,
+              "min": 65.0,
+              "max": 125.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "81081ab68583ee813b729abc0b2503c0e8c77aab937c887efefa9943d7adf4e6",
+              "nonzero_voxels": 512,
+              "min": 47.0,
+              "max": 152.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d49dfb007db5f0434e2debb5247ec559f72233d1fe87550bbb1dec8559cb1cb0",
+              "nonzero_voxels": 64,
+              "min": 77.0,
+              "max": 152.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "59ec8502b5d68f0f7f6f55b96b5f990daaf77e4a3bbee1277c61aa0dbfb4aa88",
+              "nonzero_voxels": 512,
+              "min": 48.0,
+              "max": 140.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "4f711b1ef8b8e5ac0d51f8f9e14c77dad2aaeb5648d369f0f780da90e997c8e6",
+              "nonzero_voxels": 64,
+              "min": 68.0,
+              "max": 123.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        }
+      ]
+    },
+    "after": {
+      "source_revision": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+      "source_file_sha256_lf": "d8a1d9bbff21a32e1d86bbb534184dffdea05fe9ed14eccf1ec8c3c7834070e2",
+      "ct_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+      "cases": [
+        {
+          "case": "float32",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "12c9d197e6b2319c2ca79ee7efbeaafd1d9ba858f87ea0f148bc25cb8c91f5f7",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745583057404,
+              "max": 0.5960784554481506
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "dceb7a36e1d500a537c49544ab06134f83c5c3e9ece31ebe2e52c138e4c6ca90",
+              "nonzero_voxels": 512,
+              "min": 0.18431372940540314,
+              "max": 0.5764706134796143
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "8f3e306a8b442b6b7c4446f95d4f10a178b7d844f82859fc80f706ce4d23b7fa",
+              "nonzero_voxels": 64,
+              "min": 0.21960784494876862,
+              "max": 0.5333333611488342
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float32",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "12c9d197e6b2319c2ca79ee7efbeaafd1d9ba858f87ea0f148bc25cb8c91f5f7",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745583057404,
+              "max": 0.5960784554481506
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "e159e74f2b1d2b06174b1a195f19a83c8458a3d0fd6113b0a5e8a75bf588bab3",
+              "nonzero_voxels": 512,
+              "min": 0.1774509847164154,
+              "max": 0.5696078538894653
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f72a9c9580cdafdec2dad8650b41972dfa757e6f0ec9dcaf022f291244362dc5",
+              "nonzero_voxels": 64,
+              "min": 0.2544730603694916,
+              "max": 0.4891544282436371
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float32",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "12c9d197e6b2319c2ca79ee7efbeaafd1d9ba858f87ea0f148bc25cb8c91f5f7",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745583057404,
+              "max": 0.5960784554481506
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "50febc90bf84f6c7ae589eff6ea795766264371e1740d57734cea57105f9c1ba",
+              "nonzero_voxels": 512,
+              "min": 0.18431372940540314,
+              "max": 0.5960784554481506
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "f07b3b2b6e39092e3070e777117ac4147a68a4ff7920efdde48cd771386f9319",
+              "nonzero_voxels": 64,
+              "min": 0.3019607961177826,
+              "max": 0.5960784554481506
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float32",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "12c9d197e6b2319c2ca79ee7efbeaafd1d9ba858f87ea0f148bc25cb8c91f5f7",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745583057404,
+              "max": 0.5960784554481506
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d4eadca8b467122950e4724965b602aba0e8b78e32bf67412c80a69f83346f68",
+              "nonzero_voxels": 512,
+              "min": 0.18660876154899597,
+              "max": 0.5498647093772888
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "1bd5b83b5924606082b4c9be6512365f062da364c70f09824001c6d8b19a18ec",
+              "nonzero_voxels": 64,
+              "min": 0.2645825147628784,
+              "max": 0.4821925163269043
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float64",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "43fbd749c020589cf20f6a12d1d853cdefbe4ba436e31b7950961a99834f2c89",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745098039217,
+              "max": 0.596078431372549
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "12cf8401ae41273393b7a78f2a176d9a86d6e30b589952c7a48a4aee3ba0b682",
+              "nonzero_voxels": 512,
+              "min": 0.1843137254901961,
+              "max": 0.5764705882352941
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "f9085b410e1e7238b4fdb1b4186f878fa6665109265c71f00c8b301010522435",
+              "nonzero_voxels": 64,
+              "min": 0.2196078431372549,
+              "max": 0.5333333333333333
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float64",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "43fbd749c020589cf20f6a12d1d853cdefbe4ba436e31b7950961a99834f2c89",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745098039217,
+              "max": 0.596078431372549
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "8602fbeec1344ed1ddb9285862353232b1c324184b812edf363cc1981409f90c",
+              "nonzero_voxels": 512,
+              "min": 0.17745098039215687,
+              "max": 0.5696078431372549
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "bdd47b9e28d5711410cbfa2d7708649c38309a03ac9227641645b56017735a96",
+              "nonzero_voxels": 64,
+              "min": 0.25447303921568626,
+              "max": 0.4891544117647059
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float64",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "43fbd749c020589cf20f6a12d1d853cdefbe4ba436e31b7950961a99834f2c89",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745098039217,
+              "max": 0.596078431372549
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "ecc2059b6737ee56eb43c7a78b8be420fc1e101a762d6fefa6f4a499b2c2bbce",
+              "nonzero_voxels": 512,
+              "min": 0.1843137254901961,
+              "max": 0.596078431372549
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "76df6b073e213c3f18fe6582206c755eda1a24b7cd11dc00d79571e06b83fe14",
+              "nonzero_voxels": 64,
+              "min": 0.30196078431372547,
+              "max": 0.596078431372549
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "float64",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "43fbd749c020589cf20f6a12d1d853cdefbe4ba436e31b7950961a99834f2c89",
+              "nonzero_voxels": 3072,
+              "min": 0.16862745098039217,
+              "max": 0.596078431372549
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "3610aa55d260d9f364c191693eab4e369d264e136de5f594117a48403bd0b8c5",
+              "nonzero_voxels": 512,
+              "min": 0.1866087494255631,
+              "max": 0.5498646811410911
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float64",
+              "pixel_sha256": "f7ceec6fa65cb0d330fd312a31813ddddbf4ac12ddf966229cd77118f16112a6",
+              "nonzero_voxels": 64,
+              "min": 0.26458251349415085,
+              "max": 0.4821924932951109
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "channel",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "2317f7f87576dd189638f2ee0b8bda5f4ea7b6c7bd0913b3b223e5d5795d591e",
+              "nonzero_voxels": 3072,
+              "min": -0.8313725590705872,
+              "max": -0.40392154455184937
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "9d742a27f3b800a80a61b614f8185083bc9b535c11f6eceee85a948669c6dd8f",
+              "nonzero_voxels": 512,
+              "min": -0.8156862854957581,
+              "max": -0.42352938652038574
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "55d0eb07e74039524a586f3a454efc04ea39d7ce06d93bf09a7f1fbc1e7ec632",
+              "nonzero_voxels": 64,
+              "min": -0.7803921699523926,
+              "max": -0.46666663885116577
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "channel",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "2317f7f87576dd189638f2ee0b8bda5f4ea7b6c7bd0913b3b223e5d5795d591e",
+              "nonzero_voxels": 3072,
+              "min": -0.8313725590705872,
+              "max": -0.40392154455184937
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "d8d496652de3f2521a319ef5b3e8d7cd7c47f9cad040f4b17ebc42f92e460f01",
+              "nonzero_voxels": 512,
+              "min": -0.8225489854812622,
+              "max": -0.43039214611053467
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "5430af5968e655ab2d3d898167dede0c4013d93b66dfb5f680d726d50bb8c7eb",
+              "nonzero_voxels": 64,
+              "min": -0.7455269694328308,
+              "max": -0.5108456015586853
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "channel",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "2317f7f87576dd189638f2ee0b8bda5f4ea7b6c7bd0913b3b223e5d5795d591e",
+              "nonzero_voxels": 3072,
+              "min": -0.8313725590705872,
+              "max": -0.40392154455184937
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "fd1278dedd674b72cb878825e85d1279c199f340de3222808e15874a3c679c4c",
+              "nonzero_voxels": 512,
+              "min": -0.8156862854957581,
+              "max": -0.40392154455184937
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "7c1779847958cb855a93505863ec516cde9a7b79ed5c0ecbf3fe132eeacd0ba5",
+              "nonzero_voxels": 64,
+              "min": -0.698039174079895,
+              "max": -0.40392154455184937
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "channel",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "2317f7f87576dd189638f2ee0b8bda5f4ea7b6c7bd0913b3b223e5d5795d591e",
+              "nonzero_voxels": 3072,
+              "min": -0.8313725590705872,
+              "max": -0.40392154455184937
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "a6de7e436f90026cf6e0733cc064669d8b4d134296535198ec26a5539cf99e08",
+              "nonzero_voxels": 512,
+              "min": -0.8133912682533264,
+              "max": -0.4501352906227112
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "float32",
+              "pixel_sha256": "c146b7ba3f633a65bd9998272691e36ee4b2d94d306e5c7132cbc7141fd36c62",
+              "nonzero_voxels": 64,
+              "min": -0.7354174852371216,
+              "max": -0.5178074836730957
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "nearest",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "c67028de939e73e79860a7a3b4156a2847acc53b09f47f9937a4e7cd89a91aee",
+              "nonzero_voxels": 512,
+              "min": 47.0,
+              "max": 147.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d524602f028e498c09d18095cc7bb25774019a6804a5e3cf067d95786d515f8a",
+              "nonzero_voxels": 64,
+              "min": 56.0,
+              "max": 136.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "mean",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "2ebe62b54e470a81eb060df0b44ee59123e475030c9d309a7e6d5732cb8b3d32",
+              "nonzero_voxels": 512,
+              "min": 45.0,
+              "max": 145.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d7c72825b57c7474471ccc4d1be2a9cb2dc34796920b7e836e0746dbff064f13",
+              "nonzero_voxels": 64,
+              "min": 65.0,
+              "max": 125.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "max",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "81081ab68583ee813b729abc0b2503c0e8c77aab937c887efefa9943d7adf4e6",
+              "nonzero_voxels": 512,
+              "min": 47.0,
+              "max": 152.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "d49dfb007db5f0434e2debb5247ec559f72233d1fe87550bbb1dec8559cb1cb0",
+              "nonzero_voxels": 64,
+              "min": 77.0,
+              "max": 152.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        },
+        {
+          "case": "uint16",
+          "algorithm": "gaussian",
+          "levels": [
+            {
+              "level": 0,
+              "shape": [
+                3,
+                32,
+                32
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "3d3978530ba2569cf61e584fd6105b74b2ada3338ae66a0898374549392b9a81",
+              "nonzero_voxels": 3072,
+              "min": 43.0,
+              "max": 152.0
+            },
+            {
+              "level": 1,
+              "shape": [
+                2,
+                16,
+                16
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "59ec8502b5d68f0f7f6f55b96b5f990daaf77e4a3bbee1277c61aa0dbfb4aa88",
+              "nonzero_voxels": 512,
+              "min": 48.0,
+              "max": 140.0
+            },
+            {
+              "level": 2,
+              "shape": [
+                1,
+                8,
+                8
+              ],
+              "dtype": "uint8",
+              "pixel_sha256": "4f711b1ef8b8e5ac0d51f8f9e14c77dad2aaeb5648d369f0f780da90e997c8e6",
+              "nonzero_voxels": 64,
+              "min": 68.0,
+              "max": 123.0
+            }
+          ],
+          "level0_equal_to_input": true,
+          "level0_different_voxels": 0
+        }
+      ]
+    },
+    "before_processes": 16,
+    "after_processes": 16,
+    "before_float_level0_different_voxels_across_12_runs": 36864,
+    "after_float_level0_different_voxels_across_12_runs": 0,
+    "integer_output_directories_byte_identical": 4,
+    "levels_per_output": 3
+  },
+  "limits": "No full-scroll run or Linux/macOS execution. No performance or ink-accuracy claim. Existing filtering behavior is retained except for rounding floating values and skipping negative blocks with max zero.",
+  "public_reproduction_helper": {
+    "cli_processes_passed": 16,
+    "output_level0_mismatches": 0,
+    "source_commit": "8de1ea63bed049329b9d87633f5ac7a777438b23",
+    "source_hash_matches": true
+  }
+}
