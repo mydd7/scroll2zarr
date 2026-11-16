@@ -1,0 +1,11 @@
+{
+  "sample": "PHerc0800",
+  "shape": [
+    21,
+    64,
+    64
+  ],
+  "output_pixels": 11264,
+  "different_pixels_when_rechunked": 0,
+  "maximum_difference": 0
+}

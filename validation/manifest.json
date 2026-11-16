@@ -1,0 +1,15 @@
+{
+  "crop-before-after.png": "126fc9043c6fc019f9b3d8096874cdbdf23d31c713e5adcb3684a2e28a641dcc",
+  "gaussian-after.json": "1cf9eb537c56f42170ce91b81a27870e0798416d2ebd94620078487660b7ce89",
+  "gaussian-before-after.png": "cae68b6d0bf00827377a53f796bc1aa75bdd683b233fb73808429389980a6ae0",
+  "gaussian-before.json": "f769a974ec00eb6084f026c82996568c32498bbcffb08743b7717689ddcfe5dc",
+  "missing-after.json": "4ce2f57993d10798cc096902b17e707efba3c571961bb450dbaee252157d39ad",
+  "missing-before.json": "7d479895c85b06369b2b06f314e9204309456f2f83169dc107e74201a9b83251",
+  "README.txt": "6d8afc258033604f00d70d7b5666142f4fa959c6a2c9cd98d16c90bafcafdc5e",
+  "uint8-before-after.png": "d01e0907b1b8f0bfda9ae21e1e0da650584d470be109ec4d5ce3386a8a0e5828",
+  "uint8-validation.json": "b3b378aa5f574d2b7d913cf61648d9b3cb39906ab215cc2c1629e4eca8ecb501",
+  "validation-excerpts.png": "eb55e4261af863bfd53cb9005fedebf5fbb84b2e2724ab259bf8d15f56959083",
+  "validation-excerpts.txt": "0fe7bb61cea9dba740661895494e8668c912e06c662bafd2de017183dd40c4ca",
+  "validation.json": "ce93ce072f181cafce6c9bad0e31a3f9e5519ae6eb93ac4532244631f3d80433",
+  "visual-proof.json": "fd694459a8430829a647981c3c53683e8b6a29372974e0e14856d351f3641585"
+}

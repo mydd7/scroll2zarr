@@ -1,0 +1,22 @@
+Saved validation output excerpts
+
+Original installation:
+AttributeError: module 'zarr' has no attribute 'NestedDirectoryStore'
+
+Original X-only crop:
+ValueError: could not broadcast input array from shape (980,980) into shape (980,200)
+
+Original missing-depth conversion:
+parameter 'value': expected array with shape (4, 32, 32), got (2, 32, 32)
+
+After applying the five fixes:
+Ran 4 tests in 20.035s
+OK
+
+Real uint16 conversion:
+Incorrect pixels before: 1024
+Incorrect pixels after: 0
+
+Gaussian output when rechunked:
+Before: 2566 different pixels
+After: 0 different pixels

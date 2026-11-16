@@ -1,0 +1,32 @@
+{
+  "crop": {
+    "source": "committed PHerc0800 fixture",
+    "y_range": [
+      5,
+      23
+    ],
+    "display": [
+      0,
+      255
+    ]
+  },
+  "gaussian": {
+    "source_crop_yx": [
+      400,
+      464,
+      400,
+      464
+    ],
+    "source_layers": 21,
+    "chunk_size": 8,
+    "output_plane": 7,
+    "different_pixels": 2566,
+    "max_difference": 8,
+    "difference_display_multiplier": 32
+  },
+  "files": {
+    "crop-before-after.png": "126fc9043c6fc019f9b3d8096874cdbdf23d31c713e5adcb3684a2e28a641dcc",
+    "gaussian-before-after.png": "cae68b6d0bf00827377a53f796bc1aa75bdd683b233fb73808429389980a6ae0",
+    "uint8-before-after.png": "d01e0907b1b8f0bfda9ae21e1e0da650584d470be109ec4d5ce3386a8a0e5828"
+  }
+}

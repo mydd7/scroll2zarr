@@ -1,0 +1,28 @@
+[
+  {
+    "slice_indexes": [
+      0,
+      1,
+      4
+    ],
+    "error": "parameter 'value': expected array with shape (4, 32, 32), got (2, 32, 32)"
+  },
+  {
+    "slice_indexes": [
+      0,
+      4,
+      5
+    ],
+    "error": "parameter 'value': expected array with shape (4, 32, 32), got (2, 32, 32)"
+  },
+  {
+    "slice_indexes": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "matches_zero_filled_gaps": true
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "sample": "PHercParis4",
+  "volume": "20230205180739",
+  "slice": 6500,
+  "expected_min": 54,
+  "expected_max": 206,
+  "incorrect_pixels_before": 1024,
+  "incorrect_pixels_after": 0,
+  "before_nonzero": 0,
+  "after_nonzero": 1024
+}

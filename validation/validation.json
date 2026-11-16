@@ -1,0 +1,15 @@
+{
+  "sample": "PHerc0800",
+  "layers": 21,
+  "input_compression": "LZW",
+  "zarr_version": "2.18.7",
+  "level0_shape": [
+    21,
+    980,
+    980
+  ],
+  "level0_pixels_identical": true,
+  "level1_matches_symmetric_mean": true,
+  "python314_matches_python312": true,
+  "zarr_to_ome_pixels_identical": true
+}

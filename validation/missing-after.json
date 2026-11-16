@@ -1,0 +1,28 @@
+[
+  {
+    "slice_indexes": [
+      0,
+      1,
+      4
+    ],
+    "matches_zero_filled_gaps": true
+  },
+  {
+    "slice_indexes": [
+      0,
+      4,
+      5
+    ],
+    "matches_zero_filled_gaps": true
+  },
+  {
+    "slice_indexes": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ],
+    "matches_zero_filled_gaps": true
+  }
+]
