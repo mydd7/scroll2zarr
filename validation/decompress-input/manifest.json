@@ -1,0 +1,9 @@
+{
+  "README.txt": "64f1ac6c1f8aa845b0ac0cdbbb12692a2475ddc296bc895fe72cd1e75c46355b",
+  "validation.json": "f66558dfabb45786917b31096e1cca04906331752539eea7bc2d6257ad699f2b",
+  "matrix-before.json": "787e5f6c30f24df3c7c6641d3a43d92a0462592a9270e7405c32ec95ce8aa2f9",
+  "matrix-after.json": "f0ba7d74d75585fe8f8dc1afa23fb9e92a8a10cb2c87071be386cb51e445d647",
+  "cli-before.json": "e1bf2af6f3eceb4e8fe5c41191ec70755b28bc9f196f4ea7dfcc3faee21680f0",
+  "cli-after.json": "d422ab63e1b8c0e131cc3310b49d7a516e5b9e73d5e460dd0cf0dc1b1b11263a",
+  "combined-validation.patch": "8c0bfa395073952f015646f3c5170fc58995dccf7031a393537c2fa89e03c534"
+}

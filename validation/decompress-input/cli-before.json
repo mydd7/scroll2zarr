@@ -1,0 +1,234 @@
+[
+  {
+    "tool": "decompress",
+    "case": "same",
+    "exit_code": 0,
+    "files_before": 4,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "tree\\source\\00.tif",
+      "tree\\source\\01.tif",
+      "tree\\source\\02.tif",
+      "tree\\source\\keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "decompress",
+    "case": "same-alias",
+    "exit_code": 0,
+    "files_before": 4,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "tree\\source\\00.tif",
+      "tree\\source\\01.tif",
+      "tree\\source\\02.tif",
+      "tree\\source\\keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "decompress",
+    "case": "parent",
+    "exit_code": 0,
+    "files_before": 4,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "tree\\keep.txt",
+      "tree\\source\\00.tif",
+      "tree\\source\\01.tif",
+      "tree\\source\\02.tif"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "decompress",
+    "case": "missing",
+    "exit_code": 0,
+    "files_before": 4,
+    "files_after": 3,
+    "all_files_preserved": false,
+    "lost_files": [
+      "output\\keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "decompress",
+    "case": "empty",
+    "exit_code": 0,
+    "files_before": 4,
+    "files_after": 3,
+    "all_files_preserved": false,
+    "lost_files": [
+      "output\\keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "tiff",
+    "case": "same",
+    "exit_code": 1,
+    "files_before": 3,
+    "files_after": 2,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/00.tif",
+      "source.zarr/01.tif",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "tiff",
+    "case": "same-alias",
+    "exit_code": 1,
+    "files_before": 3,
+    "files_after": 2,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/00.tif",
+      "source.zarr/01.tif",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "tiff",
+    "case": "parent",
+    "exit_code": 1,
+    "files_before": 3,
+    "files_after": 2,
+    "all_files_preserved": false,
+    "lost_files": [
+      "parent.zarr/keep.txt",
+      "parent.zarr/source.zarr/00.tif",
+      "parent.zarr/source.zarr/01.tif"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "tiff",
+    "case": "file-input",
+    "exit_code": 1,
+    "files_before": 3,
+    "files_after": 4,
+    "all_files_preserved": false,
+    "lost_files": [
+      "output.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "tiff",
+    "case": "zarr-only-rebuild",
+    "exit_code": 1,
+    "files_before": 3,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/00.tif",
+      "source.zarr/01.tif",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "zarr",
+    "case": "same",
+    "exit_code": 1,
+    "files_before": 6,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/.zarray",
+      "source.zarr/0.0.0",
+      "source.zarr/0.0.1",
+      "source.zarr/0.1.0",
+      "source.zarr/0.1.1",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "zarr",
+    "case": "same-alias",
+    "exit_code": 1,
+    "files_before": 6,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/.zarray",
+      "source.zarr/0.0.0",
+      "source.zarr/0.0.1",
+      "source.zarr/0.1.0",
+      "source.zarr/0.1.1",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "zarr",
+    "case": "parent",
+    "exit_code": 1,
+    "files_before": 6,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "parent.zarr/keep.txt",
+      "parent.zarr/source.zarr/.zarray",
+      "parent.zarr/source.zarr/0.0.0",
+      "parent.zarr/source.zarr/0.0.1",
+      "parent.zarr/source.zarr/0.1.0",
+      "parent.zarr/source.zarr/0.1.1"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "zarr",
+    "case": "file-url",
+    "exit_code": 1,
+    "files_before": 6,
+    "files_after": 0,
+    "all_files_preserved": false,
+    "lost_files": [
+      "source.zarr/.zarray",
+      "source.zarr/0.0.0",
+      "source.zarr/0.0.1",
+      "source.zarr/0.1.0",
+      "source.zarr/0.1.1",
+      "source.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  },
+  {
+    "tool": "zarr",
+    "case": "missing",
+    "exit_code": 1,
+    "files_before": 6,
+    "files_after": 5,
+    "all_files_preserved": false,
+    "lost_files": [
+      "output.zarr/keep.txt"
+    ],
+    "changed_files": [],
+    "scope": "Fresh owned temporary directory containing copies of the real CT fixture only"
+  }
+]

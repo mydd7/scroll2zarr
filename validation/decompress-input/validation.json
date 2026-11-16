@@ -1,0 +1,63 @@
+{
+  "baseline_commit": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+  "source_branch": "fix/converter-input-paths",
+  "source_commit": "b80cb7a28241299eda3d677214ac41216094dd6d",
+  "data": "PHerc0800 rendered CT crop: tests/data/PHerc0800/source.json",
+  "input_encoding": "Decompression controls use LZW copies of three fixture TIFFs; conversion controls use the first two TIFFs and equivalent Blosc-compressed Zarr arrays",
+  "scope": "All deletion reproductions use fresh owned temporary directories; resolved arguments are asserted to remain below that directory",
+  "standalone_tests": {
+    "methods": 6,
+    "subcases": 40,
+    "before_passed": 25,
+    "before_failed": 15,
+    "after_passed": 40,
+    "unsafe_cases": 15,
+    "valid_controls": 25,
+    "tools": [
+      "decompress_tiffs.py",
+      "scroll_to_ome.py",
+      "zarr_to_ome.py"
+    ],
+    "coverage": [
+      "same input/output",
+      "canonical parent and ../ aliases",
+      "file:// aliases",
+      "missing or invalid local paths",
+      "new/sibling/child outputs",
+      "simple Zarr and OME outputs",
+      "explicit pyramid rebuilds",
+      "HTTP and cached HTTP sources"
+    ],
+    "command": "python -m unittest discover -s tests -p \"test_*inputs.py\" -v"
+  },
+  "cli": {
+    "cases_per_phase": 15,
+    "before": "cli-before.json",
+    "after": "cli-after.json",
+    "before_exit_codes": [
+      0,
+      1
+    ],
+    "after_exit_code": 2,
+    "after_all_files_preserved": true,
+    "comparison": "Every existing file is compared by relative path and SHA256 before and after each run"
+  },
+  "combined": {
+    "branch": "local/validate-converters",
+    "commit": "e1455daaa72ab2412777d64f003e8a30480586ef",
+    "tree_sha": "1ddf5a4db80e0bee232b3d8024919dc8b179e3a0",
+    "contributions": 9,
+    "test_methods": 16,
+    "real_ct_subcases": 240,
+    "transformation_controls": 16,
+    "reproduction_patch_sha256": "8c0bfa395073952f015646f3c5170fc58995dccf7031a393537c2fa89e03c534"
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.10"
+  },
+  "limits": [
+    "Linux and macOS were not run",
+    "This preflight does not make an otherwise valid overwrite transactional if a later read/write fails"
+  ]
+}

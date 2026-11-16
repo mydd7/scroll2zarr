@@ -1,0 +1,386 @@
+[
+  {
+    "test": "test_invalid_input_preserves_source_and_existing_output",
+    "parameters": {
+      "case": "same"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_input_preserves_source_and_existing_output",
+    "parameters": {
+      "case": "same-alias"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_input_preserves_source_and_existing_output",
+    "parameters": {
+      "case": "parent"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_input_preserves_source_and_existing_output",
+    "parameters": {
+      "case": "missing"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_input_preserves_source_and_existing_output",
+    "parameters": {
+      "case": "empty"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_converts_to_safe_output_directories",
+    "parameters": {
+      "case": "new"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_converts_to_safe_output_directories",
+    "parameters": {
+      "case": "replace"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_converts_to_safe_output_directories",
+    "parameters": {
+      "case": "child"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_http_input_still_converts",
+    "parameters": {
+      "transport": "http"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_http_input_still_converts",
+    "parameters": {
+      "transport": "filecache"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "tiff",
+      "case": "same"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "tiff",
+      "case": "same-alias"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "tiff",
+      "case": "parent"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "tiff",
+      "case": "file-input"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "tiff",
+      "case": "zarr-only-rebuild"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "zarr",
+      "case": "same"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "zarr",
+      "case": "same-alias"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "zarr",
+      "case": "parent"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "zarr",
+      "case": "file-url"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_invalid_paths_preserve_all_existing_files",
+    "parameters": {
+      "tool": "zarr",
+      "case": "missing"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "new",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "new",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "replace",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "replace",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "child",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "tiff",
+      "location": "child",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "new",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "new",
+      "levels": 1,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "new",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "new",
+      "levels": 2,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "replace",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "replace",
+      "levels": 1,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "replace",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "replace",
+      "levels": 2,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "child",
+      "levels": 1,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "child",
+      "levels": 1,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "child",
+      "levels": 2,
+      "uri": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_conversions_preserve_source_pixels",
+    "parameters": {
+      "tool": "zarr",
+      "location": "child",
+      "levels": 2,
+      "uri": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_rebuild_does_not_treat_output_as_input",
+    "parameters": {
+      "tool": "tiff"
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_rebuild_does_not_treat_output_as_input",
+    "parameters": {
+      "tool": "zarr"
+    },
+    "passed": true,
+    "error": null
+  }
+]
