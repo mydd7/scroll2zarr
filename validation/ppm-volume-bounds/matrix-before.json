@@ -1,0 +1,578 @@
+[
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 0
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 1
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 2
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 3
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 4
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 5
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 6
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 7
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 8
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 9
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 10
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 11
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 12
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 13
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 14
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 15
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 16
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 17
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 18
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 19
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 20
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 21
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 22
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 23
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 24
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 25
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 26
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 27
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 28
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 29
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 30
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 31
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 32
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 33
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 34
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 35
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 36
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 37
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 38
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 39
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 40
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 41
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 42
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 43
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_interpolation_at_and_outside_real_ct_faces",
+    "parameters": {
+      "point": 44
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "interior",
+      "disk": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "interior",
+      "disk": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-x",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-x",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-y",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-y",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-z",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "last-z",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "corner",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "corner",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "lower-x",
+      "disk": false
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "lower-x",
+      "disk": true
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "upper-x",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "upper-x",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "below-x",
+      "disk": false
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "below-x",
+      "disk": true
+    },
+    "passed": false,
+    "error": "AssertionError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "above-x",
+      "disk": false
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "above-x",
+      "disk": true
+    },
+    "passed": true,
+    "error": null
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "single-z",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "single-z",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "invalid-far",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "invalid-far",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "invalid-nan",
+      "disk": false
+    },
+    "passed": false,
+    "error": "IndexError"
+  },
+  {
+    "test": "test_real_ct_blocks_keep_valid_pixels_at_volume_edges",
+    "parameters": {
+      "case": "invalid-nan",
+      "disk": true
+    },
+    "passed": false,
+    "error": "IndexError"
+  }
+]

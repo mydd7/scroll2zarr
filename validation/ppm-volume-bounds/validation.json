@@ -1,0 +1,50 @@
+{
+  "baseline_commit": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+  "source_branch": "fix/ppm-volume-bounds",
+  "source_commit": "63446da75017b117b062325e021850bb69179061",
+  "data": "PHerc0800 rendered CT crop: tests/data/PHerc0800/source.json",
+  "geometry": "Generated planar PPM geometry and sample coordinates, not an extracted scroll surface",
+  "reference": "scipy.interpolate.RegularGridInterpolator with bounds_error=False and fill_value=0",
+  "standalone_tests": {
+    "methods": 2,
+    "subcases": 69,
+    "kernel_samples": 45,
+    "block_cases": 24,
+    "before_passed": 15,
+    "before_assertion_failures": 7,
+    "before_errors": 47,
+    "after_passed": 69,
+    "command": "python -W ignore -m unittest discover -s tests -p test_ppm_bounds.py -v"
+  },
+  "cli": {
+    "cases_per_phase": 5,
+    "before_wrong_outputs": 4,
+    "after_wrong_outputs": 0,
+    "last_z_before_nonzero": 0,
+    "last_z_after_nonzero": 576,
+    "details": "cli-validation.json"
+  },
+  "visual": {
+    "file": "before-after.png",
+    "source": "Actual 24 x 24 TIFF arrays from the last-z CLI runs",
+    "processing": "Grayscale pixels enlarged by nearest neighbor with captions; no desktop screenshot or generated CT content"
+  },
+  "combined": {
+    "branch": "local/validate-converters",
+    "commit": "5b04c2aa309345090e4a58184c14de0d1dafb6b7",
+    "tree_sha": "23928273183d1b798ac91e87415edd743aabe3c1",
+    "contributions": 8,
+    "test_methods": 10,
+    "real_ct_subcases": 200,
+    "transformation_controls": 16,
+    "reproduction_patch_sha256": "71f455bba9d4f303c26c4740894c7458dcd496687400591733802beff1f0993a"
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.10"
+  },
+  "limits": [
+    "Linux and macOS were not run",
+    "The existing discarded-worker-error defect is addressed separately by fix/ppm-worker-errors"
+  ]
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "phase": "before",
+    "case": "interior",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 16,
+    "expected_nonzero_pixels": 16,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d",
+    "expected_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  },
+  {
+    "phase": "before",
+    "case": "last-z",
+    "exit_code": 0,
+    "shape": [
+      24,
+      24
+    ],
+    "nonzero_pixels": 0,
+    "expected_nonzero_pixels": 576,
+    "pixels_match": false,
+    "stack_matches": false,
+    "pixel_sha256": "4cf9816ed1062189ff0c8d427fba5e912cc68fc9af76cf7f08fd255977de3b33",
+    "expected_sha256": "f781bc911dbd71b54f15fa5ea457004dd3f192753dc25eb8efacbf8d57abd54d"
+  },
+  {
+    "phase": "before",
+    "case": "corner",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 0,
+    "expected_nonzero_pixels": 4,
+    "pixels_match": false,
+    "stack_matches": false,
+    "pixel_sha256": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925",
+    "expected_sha256": "3eb62e5351f4b7c196b709e8ef0db36294bb564345f20f2110d3de71731720c3"
+  },
+  {
+    "phase": "before",
+    "case": "lower-x",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 16,
+    "expected_nonzero_pixels": 12,
+    "pixels_match": false,
+    "stack_matches": false,
+    "pixel_sha256": "edb89ffe9e9613824a9ae0817a1a3d0033e08d7e8021f9f9980e4be8c2035ffa",
+    "expected_sha256": "b179abeed768e78f082c9724c66b7db6b90190955d067c0a00e6778bfa5891e7"
+  },
+  {
+    "phase": "before",
+    "case": "invalid-hole",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 0,
+    "expected_nonzero_pixels": 15,
+    "pixels_match": false,
+    "stack_matches": false,
+    "pixel_sha256": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925",
+    "expected_sha256": "04bd3625c24b549f4d068eb45287ce1daf2950f79e8ffa51cd2df7cbc1e8e0cc"
+  },
+  {
+    "phase": "after",
+    "case": "interior",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 16,
+    "expected_nonzero_pixels": 16,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d",
+    "expected_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  },
+  {
+    "phase": "after",
+    "case": "last-z",
+    "exit_code": 0,
+    "shape": [
+      24,
+      24
+    ],
+    "nonzero_pixels": 576,
+    "expected_nonzero_pixels": 576,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "f781bc911dbd71b54f15fa5ea457004dd3f192753dc25eb8efacbf8d57abd54d",
+    "expected_sha256": "f781bc911dbd71b54f15fa5ea457004dd3f192753dc25eb8efacbf8d57abd54d"
+  },
+  {
+    "phase": "after",
+    "case": "corner",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 4,
+    "expected_nonzero_pixels": 4,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "3eb62e5351f4b7c196b709e8ef0db36294bb564345f20f2110d3de71731720c3",
+    "expected_sha256": "3eb62e5351f4b7c196b709e8ef0db36294bb564345f20f2110d3de71731720c3"
+  },
+  {
+    "phase": "after",
+    "case": "lower-x",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 12,
+    "expected_nonzero_pixels": 12,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "b179abeed768e78f082c9724c66b7db6b90190955d067c0a00e6778bfa5891e7",
+    "expected_sha256": "b179abeed768e78f082c9724c66b7db6b90190955d067c0a00e6778bfa5891e7"
+  },
+  {
+    "phase": "after",
+    "case": "invalid-hole",
+    "exit_code": 0,
+    "shape": [
+      4,
+      4
+    ],
+    "nonzero_pixels": 15,
+    "expected_nonzero_pixels": 15,
+    "pixels_match": true,
+    "stack_matches": true,
+    "pixel_sha256": "04bd3625c24b549f4d068eb45287ce1daf2950f79e8ffa51cd2df7cbc1e8e0cc",
+    "expected_sha256": "04bd3625c24b549f4d068eb45287ce1daf2950f79e8ffa51cd2df7cbc1e8e0cc"
+  }
+]

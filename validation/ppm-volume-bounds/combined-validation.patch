@@ -1,0 +1,942 @@
+diff --git a/README.md b/README.md
+index ea6f909..ed5bf93 100644
+--- a/README.md
++++ b/README.md
+@@ -92,8 +92,9 @@ the `masked_volumes` directory
+ 
+ Only a few packages need to be installed in order to run
+ `scroll_to_ome`:
+-* zarr
++* zarr (version 2; the scripts use APIs removed in version 3)
+ * tifffile
++* imagecodecs (for compressed TIFF input, including LZW)
+ * scikit-image
+ * tqdm
+ 
+@@ -544,6 +545,10 @@ limiting the input data used to a given range in x, y, and z.
+     This is true whether `--shift` appears
+     before or after `--window` in the command line.
+ 
++    If a window ends beyond the input array bounds, only overlapping
++    source voxels are copied. The requested output grid is retained and
++    uncovered regions are filled with zeros.
++
+ * **bytes**: This option allows you to set
+ the number of bytes per voxel in the output OME-Zarr data set.
+ By default, the output data set will have the same number of bytes
+diff --git a/anaconda_installation.yml b/anaconda_installation.yml
+index d106b3f..b397a2a 100644
+--- a/anaconda_installation.yml
++++ b/anaconda_installation.yml
+@@ -2,8 +2,9 @@ channels:
+   - conda-forge
+   - defaults
+ dependencies:
+-  - zarr
++  - zarr<3
+   - tifffile
++  - imagecodecs
+   - scikit-image
+   - fsspec
+   - aiohttp
+diff --git a/downsample.py b/downsample.py
+new file mode 100644
+index 0000000..0591a69
+--- /dev/null
++++ b/downsample.py
+@@ -0,0 +1,32 @@
++import numpy as np
++import skimage.transform
++
++
++def process_chunk(args):
++    idata, odata, z, y, x, cz, cy, cx, algorithm = args
++    starts = (2*z*cz, 2*y*cy, 2*x*cx)
++    stops = tuple(min(start + 2*chunk, size) for start, chunk, size in zip(starts, (cz, cy, cx), idata.shape))
++    halo = 2 if algorithm == 'gaussian' else 0
++    read_starts = tuple(max(0, start - halo) for start in starts)
++    read_stops = tuple(min(size, stop + halo) for stop, size in zip(stops, idata.shape))
++    ibuf = idata[tuple(slice(start, stop) for start, stop in zip(read_starts, read_stops))]
++    if np.max(ibuf) == 0:
++        return
++    pad = tuple(size % 2 for size in ibuf.shape)
++    if any(pad):
++        ibuf = np.pad(ibuf, tuple((0, amount) for amount in pad), mode='symmetric')
++    if algorithm == 'nearest':
++        obuf = ibuf[::2, ::2, ::2]
++    elif algorithm == 'gaussian':
++        obuf = np.round(skimage.transform.rescale(ibuf, .5, preserve_range=True))
++        offsets = tuple((start - read_start) // 2 for start, read_start in zip(starts, read_starts))
++        lengths = tuple((stop - start + 1) // 2 for start, stop in zip(starts, stops))
++        obuf = obuf[tuple(slice(offset, offset + length) for offset, length in zip(offsets, lengths))]
++    elif algorithm == 'mean':
++        obuf = np.round(skimage.transform.downscale_local_mean(ibuf, (2, 2, 2)))
++    elif algorithm == 'max':
++        s = ibuf.shape
++        obuf = np.max(ibuf.reshape((s[0]//2, 2, s[1]//2, 2, s[2]//2, 2)), axis=(1, 3, 5))
++    else:
++        raise ValueError(f'algorithm {algorithm} not valid')
++    odata[z*cz:(z+1)*cz, y*cy:(y+1)*cy, x*cx:(x+1)*cx] = np.round(obuf)
+diff --git a/ppm_to_layers.py b/ppm_to_layers.py
+index 2821f74..84bdaf6 100644
+--- a/ppm_to_layers.py
++++ b/ppm_to_layers.py
+@@ -18,17 +18,21 @@ def trilinear(fxyz, data):
+     data: 3d volume
+     returns: interpolated data values at coordinates
+     '''
+-    ijk = fxyz.astype(np.int32)
++    shape = np.array(data.shape)
++    valid = ((fxyz >= 0) & (fxyz <= shape - 1)).all(axis=-1)
++    coordinates = np.where(valid[..., np.newaxis], fxyz, 0)
++    ijk = coordinates.astype(np.intp)
+     i, j, k = ijk[...,0], ijk[...,1], ijk[...,2]
++    i1, j1, k1 = np.moveaxis(np.minimum(ijk + 1, shape - 1), -1, 0)
+     V000 = data[ i   , j   ,  k   ]
+-    V100 = data[(i+1), j   ,  k   ]
+-    V010 = data[ i   ,(j+1),  k   ]
+-    V001 = data[ i   , j   , (k+1)]
+-    V101 = data[(i+1), j   , (k+1)]
+-    V011 = data[ i   ,(j+1), (k+1)]
+-    V110 = data[(i+1),(j+1),  k   ]
+-    V111 = data[(i+1),(j+1), (k+1)]
+-    xyz = fxyz - ijk
++    V100 = data[ i1  , j   ,  k   ]
++    V010 = data[ i   , j1  ,  k   ]
++    V001 = data[ i   , j   ,  k1  ]
++    V101 = data[ i1  , j   ,  k1  ]
++    V011 = data[ i   , j1  ,  k1  ]
++    V110 = data[ i1  , j1  ,  k   ]
++    V111 = data[ i1  , j1  ,  k1  ]
++    xyz = coordinates - ijk
+     x, y, z = xyz[...,0], xyz[...,1], xyz[...,2]
+     Vxyz = (V000 * (1 - x)*(1 - y)*(1 - z)
+             + V100 * x * (1 - y) * (1 - z) +
+@@ -38,7 +42,7 @@ def trilinear(fxyz, data):
+             + V011 * (1 - x) * y * z +
+             + V110 * x * y * (1 - z) +
+             + V111 * x * y * z)
+-    return Vxyz
++    return np.where(valid, Vxyz, 0)
+ 
+ # TODO: try memory mapped directory store: 
+ # https://github.com/zarr-developers/zarr-python/pull/377
+@@ -212,6 +216,11 @@ def process_block(block, step, ppm_data, zdata, nranges, out_volumes, i):
+     xmin = max(xmin,0)
+     ymin = max(ymin,0)
+     zmin = max(zmin,0)
++    xmax = min(xmax, zdata.shape[2] - 1)
++    ymax = min(ymax, zdata.shape[1] - 1)
++    zmax = min(zmax, zdata.shape[0] - 1)
++    if xmax < xmin or ymax < ymin or zmax < zmin:
++        return
+     # print("lxyzns", lxyzns.shape, lxyzns.dtype)
+     # print(xmin,xmax,ymin,ymax,zmin,zmax)
+     data = zdata[zmin:zmax+1,ymin:ymax+1,xmin:xmax+1].astype(np.float32)
+@@ -291,11 +300,14 @@ def create_flattened_layers_threaded(params, create_stack):
+     while j < len(sorted_blocks):
+         print("j",j)
+         with ThreadPoolExecutor(2*ncpus) as executor:
++            futures = []
+             for i in range(j,j+nset):
+                 if i >= len(sorted_blocks):
+                     break
+                 block = sorted_blocks[i]
+-                executor.submit(process_block, block, step, ppmdata, zdata, nranges, output_volumes, i)
++                futures.append(executor.submit(process_block, block, step, ppmdata, zdata, nranges, output_volumes, i))
++            for future in futures:
++                future.result()
+         j += nset
+ 
+     prev = zdata.store.prev
+diff --git a/requirements.txt b/requirements.txt
+index 2043830..691c6ad 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,5 +1,6 @@
+-zarr
++zarr<3
+ tifffile
++imagecodecs
+ scikit-image
+ fsspec
+ aiohttp
+diff --git a/scroll_to_ome.py b/scroll_to_ome.py
+index 9e2e8c6..b1c8a68 100644
+--- a/scroll_to_ome.py
++++ b/scroll_to_ome.py
+@@ -8,7 +8,7 @@ import copy
+ import numpy as np
+ import tifffile
+ import zarr
+-import skimage.transform
++from downsample import process_chunk
+ from tqdm import tqdm
+ from concurrent.futures import ThreadPoolExecutor
+ from multiprocessing import cpu_count
+@@ -288,8 +288,10 @@ def tifs2zarr(tiffdir, zarrdir, chunk_size, obytes=0, slices=None, maxgb=None):
+             if nx != nx0 or ny != ny0:
+                 print("\nFile %s is the wrong shape (%d, %d); expected %d, %d"%(tiffname,nx,ny,nx0,ny0))
+                 continue
+-            if xslice is not None and yslice is not None:
+-                tarr = tarr[yslice, xslice]
++            if xslice is not None:
++                tarr = tarr[:, xslice]
++            if yslice is not None:
++                tarr = tarr[yslice, :]
+             cur_zc = z // chunk_size
+             if cur_zc != prev_zc:
+                 if prev_zc >= 0:
+@@ -299,7 +301,7 @@ def tifs2zarr(tiffdir, zarrdir, chunk_size, obytes=0, slices=None, maxgb=None):
+                         print("\nwriting, z range %d,%d"%(zs+z0, ze+z0))
+                     else:
+                         print("\nwriting, z range %d,%d  y range %d,%d"%(zs+z0, ze+z0, ys+y0, ye+y0))
+-                    tzarr[zs:z,ys:ye,:] = buf[:ze-zs,:ye-ys,:]
++                    tzarr[zs:ze,ys:ye,:] = buf[:ze-zs,:ye-ys,:]
+                     buf[:,:,:] = 0
+                 prev_zc = cur_zc
+             cur_bufz = z-cur_zc*chunk_size
+@@ -317,7 +319,7 @@ def tifs2zarr(tiffdir, zarrdir, chunk_size, obytes=0, slices=None, maxgb=None):
+                     print("\nwriting, z range %d,%d  y range %d,%d"%(zs+z0, ze+z0, ys+y0, ye+y0))
+                 # print("\nwriting (end)", zs, ze)
+                 # tzarr[zs:zs+bufnz,:,:] = buf[0:(1+cur_bufz)]
+-                tzarr[zs:ze,ys:ye,:] = buf[:ze-zs,:ye-ys,:] // divisor
++                tzarr[zs:ze,ys:ye,:] = buf[:ze-zs,:ye-ys,:]
+             else:
+                 print("\n(end)")
+         buf[:,:,:] = 0
+@@ -328,36 +330,6 @@ def divp1(s, c):
+         n += 1
+     return n
+ 
+-def process_chunk(args):
+-    idata, odata, z, y, x, cz, cy, cx, algorithm = args
+-    ibuf = idata[2*z*cz:(2*z*cz+2*cz),
+-                 2*y*cy:(2*y*cy+2*cy),
+-                 2*x*cx:(2*x*cx+2*cx)]
+-    if np.max(ibuf) == 0:
+-        return  # Skip if the block is empty to save computation
+-
+-    # pad ibuf to even in all directions
+-    ibs = ibuf.shape
+-    pad = (ibs[0]%2, ibs[1]%2, ibs[2]%2)
+-    if any(pad):
+-        ibuf = np.pad(ibuf, 
+-                      ((0,pad[0]),(0,pad[1]),(0,pad[2])), 
+-                      mode="symmetric")
+-
+-    # algorithms:
+-    if algorithm == "nearest":
+-        obuf = ibuf[::2, ::2, ::2]
+-    elif algorithm == "gaussian":
+-        obuf = np.round(skimage.transform.rescale(ibuf, .5, preserve_range=True))
+-    elif algorithm == "mean":
+-        obuf = np.round(skimage.transform.downscale_local_mean(ibuf, (2,2,2)))
+-    else:
+-        raise ValueError(f"algorithm {algorithm} not valid")
+-
+-    odata[z*cz:(z*cz+cz),
+-          y*cy:(y*cy+cy),
+-          x*cx:(x*cx+cx)] = np.round(obuf)
+-
+ def resize(zarrdir, old_level, num_threads, algorithm="mean"):
+     idir = zarrdir / ("%d"%old_level)
+     if not idir.exists():
+diff --git a/tests/data/PHerc0800/00.tif b/tests/data/PHerc0800/00.tif
+new file mode 100644
+index 0000000000000000000000000000000000000000..adf4711c30a9c8b921953f78d1c5b5f5c13d77a2
+GIT binary patch
+literal 1280
+zcmYjPOOG2x5Vn(mIG{*KJfv`0<%AGIA}bWg?#5oP$79cXdLBLfoavdKm&dQ&csGf%
+z+07wHoPY}wzl0ydkt4r?b_kMNs@A8kzN+e~uG#GC-bcM&?|!e>zt`(4bfB!ihwt?7
+zzT<bQyYKN%_u(GC-@nuQRB?YQ`{aG>F6gs8&F6bLzxZEsuh)Cf|KMHzzf|m(@A2OX
+zf3+9;oyz~Q;{H*#JFgx-Ys98}_~d{bKKkb1@DY3cpJVUdy>Z{RZB<q6qWpIAa!-Y5
+zS}j(q)p9OLoV8uad0y8=)^1kaYWwPjF`9R)W!KdOiHWQQK_ruT)~vdE{o?kz5Ik?@
+z&Acshg0PS|g$YST-YmPt#pPzl%Sz@_WSpRc3qj%-W0p5vRo9Y{d0p3)po)!Q1Suz>
+zV+SEF=8X_JPmnCTRV#1|f*|l?ltlh)Yy#dasw_=$5Yx0>mJCG^L~#gV1bqE$8p+jp
+zmoprAFo2nWVHieOm4FCF-c-|JwOlU>f}#)^9)th@RgywPIEh?Cw@5W#bdn<&N17dm
+zFb;iyMV84jg}!b0ye!p>Qc7SjbwGd;;CQ4cWzz@@UBjmt&qRhWP6ERMVGK;eO?Xju
+ztw6DBM~ottGE5l)wiRF$c&;B|UbJ-@hajdIAw|Jymb1i<xXc-fV}v5e1l={N;>6~>
+zRs%|zjjQFNz%gRT_aIYqiXmZGKEJta1*dcdt3@YJ!Wi@e0v*$G0nJ%@esk4j1W`Q@
+zl~jMmSrW#`*GFUB!K$<7yek+cTyvSK4+BJznvyvlo{r2w&8=#4ikaXek4Y(MgjnJ_
+z&h&IJRDJ-EtP7E5c{&NxLTM31p=DUJ;qlR63Lr^kS<jmyFC3W9H=7Ctz|zk2>FE!L
+zkB1%=JNKq5vJ#MTdvjHU?k=}J8~^zI<AKLSE}Qj5n_?aydG%(S2A-`APEC7qbaXNX
+zEK5bbUN<yQ3sP^NuhJMelarxtoIM?$O@l1wOfI_`*|U(g=NDa0Lt8sK8H@)bO*cXz
+zGhQv5G%z$T$>-~?Af9&o<oI+noS2poWTh;+O-+EUtEJ;rQxbD@^mL%>Gt2iZpBF{B
+ze%46_0ZMlN+N8jk&L)QGxB!?I#H74>{o-=FXduREIiIuGc3s<cEK@bA+qNgJfBog>
+zw{Na3Kj!6J($I300=R}@Os6UrdHMSvzrDS^)U1e5k<!SsEZYr%InlJ4Wla3$_NSYR
+difS`oEihq}gs$a<p>Iuf!!|}|h9aRe{uh_{c)b7s
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/PHerc0800/01.tif b/tests/data/PHerc0800/01.tif
+new file mode 100644
+index 0000000000000000000000000000000000000000..004bb4f41b23fa81faac1f8f26d48b163de4c77e
+GIT binary patch
+literal 1280
+zcmYjQS#MiK6t>%fctDkqSfuh2^$8(_L@EkOyk6gZ-)6mc?%dVac5KIS(z;cfAgZ)t
+z5if}T6@CnlJn}1;lpuMeGy3$M?<{j>#xTC@e9-B1?sq!fd!4R82g160_)hokJN`y>
+z_ZHvi-rvLbyLUPt3+_*0AKk{@1bwon`E)PmXa8&Nbvh5a@4d_amx%rR7XK~q7kjba
+zi2NT4?jK<{>&3(KS+Qvz9vvi)4!=5hbjU9MbL{OmJ?`7Zd^(-Zm(ACk=X<KE%=zr>
+z$!>SPY@5Yu)v~N;W)0`d=a*Mk*Kg{QrR{RFz1S|N<+NSYEa8<Pvy+SM?&|gHS(Bw@
+z)vnG?7fmHVnLwIx&dby7`pMJX#cH0jjOFd3ZK^6S>YT)oQkqRStCQuTot~dIoFz$?
+z(j?8YoHG~%5x{)0na}1;p08I6krM&m_X9vEg1)6%5o_10b~dXLoac4TaU2G|?YdDE
+z`qpHm!D_WVU9=U0Q4q#)=(}DNIJV=5aiEXJ2C7cZw#$Z-DAX+5GECF*JlF9ehyraS
+zTPSPRn?=b;6sV@DYo-vmF~Bq>k)dcVPP6HvEm9H(re$cVZdi6e7%$3<c(&#cO0v4-
+z6a!J!&}B(BoiGt|Z3`NCMwnojmg3k9hn{UahGGSNNb`E$l%l1G6&O{slJPR5K}-k;
+zAVvryQ9+CkBxRWtyB{v<N?e{1u`;I^(FD4-2T>fvC@b>SPjBC>n<CG924p;=kPztE
+zmS^dj<)?MCdiDGDX~k%ItoSjaD2$Ql)iFlL{jpB!ragPH5pGC_Y8V3GTP}=jRhN5@
+zj|OT$Qr^xuAqdie9z%iy!-+#<EJ^*N{#bJbRhDVW5FjHXCRqk8%dsZIks=L86Wyl?
+z%^0sr9Ani%ys4?9Df02rP?v|pk?dt+Hk3Cd3W4b-&ANq-s*aDoAM5g<*O%OsQA~N2
+z0oyh`(kyFWYwEanJW-Y5ac|@%2?U}7vPV73Ls^-|wl0qceM!-z;ZO>B7WpW_p8WVw
+zcK|CA;OS#&Jd#vZk|Y(@Md%U+H0ir<RnsR0$Nr=@7|Dtzk0-JUrWHW#lG&!B_?8`F
+zmPC{OV4_>Lq3OC3)&)qnFV_uE6AFO1>oRe5)%JogbRAoF2=<d_zg}PN&d*ZDc(a)2
+zI1B(r5Qe^^>yBrk-5+m%{_*A07^l_jWX35(R7^C9JyX*)P4!p5{PybEs&qqA)YFEG
+spFza?Oo6RT6h)B@)Sfgsa2yX%@j;7>QvxBzu_OGdVd}D?=#HuU3%rzWt^fc4
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/PHerc0800/02.tif b/tests/data/PHerc0800/02.tif
+new file mode 100644
+index 0000000000000000000000000000000000000000..d3c5507869212f34da50b64e91020576ca8da48b
+GIT binary patch
+literal 1280
+zcmYjQTW=dh6n5HzctDkqxJd94^$9^mMT1n7Hm)zb-d*o?_A;}xv-kV@vTHlG6XPUB
+zfd&!~m8keD{1_g2<X12$Me;~z^y$p^edlQAj39i`dau=L-EXz_?zQ$P+NZI%gYWF!
+zeUras-F=I1dGGGv`+Ij<AJW{PG(LE%y%l}5!})l}^OOHM_gbw__uhHq{}<JM_7?w5
+z@#j0*uc`n0H1`jU+qHdgTt>6(!QnnRc>Hkx;IVi9-@(p)+v9F5t31!EN%qxjv%?xs
+zr`34AIX~a77pv|0b~!4?vqc@4<@dk6e)Y@MXk3-!dbPc{*c`7n+s(WxCyT|1nC02k
+z&CT`C&7{oIbb4}jww^DJSI5&dD#lgnlIhtGFRy;QTuqZ82+PH4S=V*bG*#e6N#MEh
+z?7NE>=iAfmEb&}Fs>Vf1>(rAx@B-IyysTNBZr1Z=Ju8zaAbx-$4vR96TpOCmi;Mbr
+zxtvu+7Kc&jL5y`-H67nYx+<x5kdGJZMO{S!P&LEQRl`yR2|!GsB8WQn;>pQLorf+_
+z6h-DZUeaVyF)?wWGE^aUyz+Qfgf7OastWx9FUhh7iRXFPPys{;g=HT51S3P2`5wc|
+z8h}BPBw6fZ%P>vD4np5`kcnx*Zl^EnCdnqV*|bO~0hz!g1Y?Y#gEVQtN~UGG#bULd
+zk7AF6838zP9pXBkZQGWvn%J>%kXO@58G1oEjh$vYOKJO|q*)F@7IKMgS<s~|5kDCh
+z)%EL_O>85t-4}pO9Gke*N7FS)(x5+?)R(_rHh}@`XI(~6kqvFvfhJJ6ZkH9ENnK6m
+zb&4bbFaur?fg<Sy15p%uN9_&^qC5_Kp8&ouGMp&uP!m;*WR~UGPM2Y2$HUlhY`{F{
+zddyIxw<?R8%rl%U^PIq`uBQVF*`Rya>9GRveXMYUL7yF}iX`%^=D9#pbxUqP`Ih5F
+zGw_kZ4>&5<RFUoWfs3S}q$vEeC*KHyWI7IzIbIk_5`C=ahi!$xA+-{^2amoKI0=}B
+zD$#RUrmrCPpB^bL9PqlzJUw{ykfTLSph*HR0-)PS8FczqYWD^h%bj-nNaO^?upk%?
+zM1xM5DY88l79MBRs}k7`ftsRfh}a5G$I2&`G8}MPOay#-b9K60Eo0BY*iRE;s3@d^
+zY-tidv;bqRU;XjZi}RB#OS59sOpB02WqLcxD%TgJq19afetEL2f+(9b^`ahCMK#LP
+zEJos>!wgkBUvB8vurWzS(`G&{ioDE{EDJ5Z*JgMPVuYa$Rh#%xI&MZqo<yD(1-2$I
+Ote`or#q~J=jeh|)ZF)`s
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/PHerc0800/source.json b/tests/data/PHerc0800/source.json
+new file mode 100644
+index 0000000..6c49627
+--- /dev/null
++++ b/tests/data/PHerc0800/source.json
+@@ -0,0 +1,22 @@
++{
++  "volume": "s3://vesuvius-challenge-open-data/PHerc0800/volumes/20250521135224-8.640um-1.2m-116keV-masked.zarr/",
++  "surface": "20251029010146-auto_grown_20251029010146642",
++  "mesh": "https://vesuvius-challenge-open-data.s3.amazonaws.com/PHerc0800/segments/20251029010146-auto_grown_20251029010146642/mesh/20251029010146-on-20250521135224-8.64um.tifxyz/",
++  "render": "vc_render_tifxyz --scale 1 --group-idx 0 --num-slices 21 --flip-normals --voxel-size 8.64 --voxel-unit micrometer",
++  "crop_yx": [
++    400,
++    432,
++    400,
++    432
++  ],
++  "render_layers": [
++    0,
++    1,
++    2
++  ],
++  "sha256": {
++    "00.tif": "d7681239428acdddf9c96cbca518a246ed55abbada19c9583f29e61c2fe0d95f",
++    "01.tif": "2bcae641593434786ffc59c0ca17cf9c6c79c23c3638cd84255bccb228f1b388",
++    "02.tif": "bda1267ceccdcfe97f2cbf3e9c5020bf9ff3633691502711072cf0d0c9ec96ea"
++  }
++}
+diff --git a/tests/data/PHercParis4/00000.tif b/tests/data/PHercParis4/00000.tif
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a10fa6057b0ed2c6383088ea25aff22f41f3330
+GIT binary patch
+literal 2304
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/PHercParis4/source.json b/tests/data/PHercParis4/source.json
+new file mode 100644
+index 0000000..ccf32ff
+--- /dev/null
++++ b/tests/data/PHercParis4/source.json
+@@ -0,0 +1,14 @@
++{
++  "sample": "PHercParis4",
++  "source_url": "https://dl.ash2txt.org/full-scrolls/Scroll1/PHercParis4.volpkg/volumes/20230205180739/06500.tif",
++  "source_sha256": "63367c53b1d3ac8be43700ff07d89dfd81416844e8e6058fa1387b6221288845",
++  "source_slice": 6500,
++  "crop_yx": [
++    4000,
++    4032,
++    4000,
++    4032
++  ],
++  "fixture_sha256": "7afb1c91d3aba2d96eb2be5091f6d0209d8183322c6795293d4864e1e5cb2bc5",
++  "note": "One original uint16 CT crop, renumbered to zero for a single-plane conversion test; no intensity rescaling."
++}
+diff --git a/tests/test_downsample.py b/tests/test_downsample.py
+new file mode 100644
+index 0000000..a2eccac
+--- /dev/null
++++ b/tests/test_downsample.py
+@@ -0,0 +1,45 @@
++from contextlib import redirect_stdout, redirect_stderr
++import io
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++import skimage.transform
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++import scroll_to_ome
++import zarr_to_ome
++
++
++class DownsampleTests(unittest.TestCase):
++    def test_real_ct_matches_whole_volume_filter(self):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        image = np.stack([tifffile.imread(p) for p in sorted(fixture.glob('*.tif'))])[:, :31, :29]
++        padded = np.pad(image, ((0, 1), (0, 1), (0, 1)), mode='symmetric')
++        expected = {
++            'gaussian': np.round(skimage.transform.rescale(padded, .5, preserve_range=True)),
++            'mean': np.round(skimage.transform.downscale_local_mean(padded, (2, 2, 2))),
++            'nearest': padded[::2, ::2, ::2],
++            'max': padded.reshape((2, 2, 16, 2, 15, 2)).max(axis=(1, 3, 5)),
++        }
++        for module in (scroll_to_ome, zarr_to_ome):
++            for algorithm in ('gaussian', 'mean', 'nearest', 'max'):
++                if module is scroll_to_ome and algorithm == 'max':
++                    continue
++                for size in (4, 8, 32):
++                    with self.subTest(module=module.__name__, algorithm=algorithm, size=size), tempfile.TemporaryDirectory() as directory:
++                        path = Path(directory)
++                        data = zarr.open(str(path / '0'), mode='w', shape=image.shape, chunks=(size,) * 3, dtype=image.dtype)
++                        data[:] = image
++                        with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()):
++                            module.resize(path, 0, 2, algorithm)
++                        actual = zarr.open(str(path / '1'), mode='r')[:]
++                        np.testing.assert_array_equal(actual, expected[algorithm].astype(image.dtype))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_ppm_bounds.py b/tests/test_ppm_bounds.py
+new file mode 100644
+index 0000000..e488717
+--- /dev/null
++++ b/tests/test_ppm_bounds.py
+@@ -0,0 +1,90 @@
++from contextlib import redirect_stdout
++import io
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++from scipy.interpolate import RegularGridInterpolator
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from ppm_to_layers import process_block, trilinear
++
++
++class PpmBoundsTests(unittest.TestCase):
++    def setUp(self):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        self.image = np.stack([tifffile.imread(p) for p in sorted(fixture.glob('*.tif'))]).astype(np.float32)
++
++    def reference(self, points, image):
++        interpolate = RegularGridInterpolator(tuple(np.arange(size) for size in image.shape), image, bounds_error=False, fill_value=0)
++        finite = np.isfinite(points).all(axis=-1)
++        output = np.zeros(points.shape[:-1])
++        output[finite] = interpolate(points[finite])
++        return output
++
++    def test_interpolation_at_and_outside_real_ct_faces(self):
++        points = [[1, 4, 4], [1.25, 4.5, 4.25], [0, 0, 0]]
++        points.extend([z, y, x] for z in (0, 1, 2) for y in (0, 15, 31) for x in (0, 15, 31))
++        for axis, size in enumerate(self.image.shape):
++            for value in (-100, -.25, size - .75, size + 100):
++                point = [1, 15, 15]
++                point[axis] = value
++                points.append(point)
++        points.extend([[np.nan, 15, 15], [1, np.inf, 15], [1, 15, -np.inf]])
++        for index, point in enumerate(points):
++            with self.subTest(point=index):
++                coordinates = np.array([point], dtype=np.float64)
++                np.testing.assert_allclose(trilinear(coordinates, self.image), self.reference(coordinates, self.image), rtol=0, atol=1e-5)
++
++    def test_real_ct_blocks_keep_valid_pixels_at_volume_edges(self):
++        cases = [
++            ('interior', (4, 4, 1)),
++            ('last-x', (30, 4, 1)),
++            ('last-y', (4, 30, 1)),
++            ('last-z', (4, 4, 2)),
++            ('corner', (30, 30, 2)),
++            ('lower-x', (-.5, 4, 1)),
++            ('upper-x', (30.5, 4, 1)),
++            ('below-x', (-4, 4, 1)),
++            ('above-x', (40, 4, 1)),
++            ('single-z', (4, 4, 0)),
++            ('invalid-far', (4, 4, 1)),
++            ('invalid-nan', (4, 4, 1)),
++        ]
++        for name, origin in cases:
++            for disk in (False, True):
++                with self.subTest(case=name, disk=disk), tempfile.TemporaryDirectory() as directory:
++                    image = self.image[1:2] if name == 'single-z' else self.image
++                    xyz = np.zeros((2, 2, 3), dtype=np.float64)
++                    y, x = np.mgrid[:2, :2]
++                    xyz[..., 0] = origin[0] + x
++                    xyz[..., 1] = origin[1] + y
++                    xyz[..., 2] = origin[2]
++                    normals = np.zeros_like(xyz)
++                    normals[..., 2] = 1
++                    valid = np.ones((2, 2), dtype=bool)
++                    if name.startswith('invalid-'):
++                        xyz[0, 0] = np.nan if name == 'invalid-nan' else 1e6
++                        normals[0, 0] = 0
++                        valid[0, 0] = False
++                    if disk:
++                        data = zarr.open(str(Path(directory) / 'scan.zarr'), mode='w', shape=image.shape, chunks=(1, 8, 8), dtype=image.dtype)
++                        data[:] = image
++                    else:
++                        data = image
++                    layers = np.zeros((1, 2, 2), dtype=np.uint16)
++                    stack = np.zeros((2, 2), dtype=np.uint16)
++                    with redirect_stdout(io.StringIO()):
++                        process_block(np.array([origin[2], 0, 0]), 2, (xyz, normals, valid), data, (np.array([0]), slice(0, 1)), (layers, stack), 0)
++                    expected = self.reference(xyz[..., ::-1], image)
++                    expected[~valid] = 0
++                    np.testing.assert_array_equal(layers[0], expected.astype(np.uint16))
++                    np.testing.assert_array_equal(stack, expected.astype(np.uint16))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_ppm_worker_errors.py b/tests/test_ppm_worker_errors.py
+new file mode 100644
+index 0000000..f4eb820
+--- /dev/null
++++ b/tests/test_ppm_worker_errors.py
+@@ -0,0 +1,73 @@
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++import tifffile
++import zarr
++
++
++class PpmWorkerTests(unittest.TestCase):
++    def prepare(self, root, group, corrupt):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        image = np.stack([tifffile.imread(p) for p in sorted(fixture.glob('*.tif'))])
++        store = root / 'scan.zarr'
++        if group:
++            array = zarr.open_group(str(store), mode='w').create_dataset('0', shape=image.shape, chunks=(3, 16, 16), dtype=image.dtype)
++            chunks = store / '0'
++        else:
++            array = zarr.open(str(store), mode='w', shape=image.shape, chunks=(3, 16, 16), dtype=image.dtype)
++            chunks = store
++        array[:] = image
++        if corrupt:
++            chunk = chunks / '0.0.0'
++            encoded = chunk.read_bytes()
++            chunk.write_bytes(encoded[:8])
++        surface = np.zeros((4, 4, 6), dtype='<f8')
++        y, x = np.mgrid[4:8, 4:8]
++        surface[..., 0] = x
++        surface[..., 1] = y
++        surface[..., 2] = 1
++        surface[..., 5] = 1
++        ppm = root / 'plane.ppm'
++        ppm.write_bytes(b'width: 4\nheight: 4\ndim: 6\nordered: true\ntype: double\nversion: 1\n<>\n' + surface.tobytes())
++        return ppm, store, image[1, 4:8, 4:8].astype(np.uint16)
++
++    def convert(self, root, ppm, store, block, stack):
++        command = [sys.executable, str(Path(__file__).resolve().parents[1] / 'ppm_to_layers.py'), str(ppm), str(store), str(root / 'layers')]
++        if stack:
++            command.append(str(root / 'stack.tif'))
++        command.extend(['--number_of_layers', '1', '--number_of_stacked_layers', '1', '--block_size', str(block), '--zarr_cache_max_size_gb', '1'])
++        return subprocess.run(command, capture_output=True, text=True, timeout=30)
++
++    def test_real_ct_layers_are_unchanged(self):
++        for group in (False, True):
++            for block in (1, 2, 4):
++                for stack in (False, True):
++                    with self.subTest(group=group, block=block, stack=stack), tempfile.TemporaryDirectory() as directory:
++                        root = Path(directory)
++                        ppm, store, expected = self.prepare(root, group, False)
++                        result = self.convert(root, ppm, store, block, stack)
++                        self.assertEqual(result.returncode, 0, result.stderr)
++                        np.testing.assert_array_equal(tifffile.imread(root / 'layers/00.tif'), expected)
++                        if stack:
++                            np.testing.assert_array_equal(tifffile.imread(root / 'stack.tif'), expected)
++
++    def test_corrupt_real_ct_chunk_fails_before_writing_layers(self):
++        for group in (False, True):
++            for block in (1, 2, 4):
++                for stack in (False, True):
++                    with self.subTest(group=group, block=block, stack=stack), tempfile.TemporaryDirectory() as directory:
++                        root = Path(directory)
++                        ppm, store, _ = self.prepare(root, group, True)
++                        result = self.convert(root, ppm, store, block, stack)
++                        self.assertNotEqual(result.returncode, 0)
++                        self.assertIn('decompress', result.stderr.lower())
++                        self.assertEqual(list((root / 'layers').glob('*.tif')), [])
++                        self.assertFalse((root / 'stack.tif').exists())
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_scroll_to_ome_missing_slices.py b/tests/test_scroll_to_ome_missing_slices.py
+new file mode 100644
+index 0000000..e870a71
+--- /dev/null
++++ b/tests/test_scroll_to_ome_missing_slices.py
+@@ -0,0 +1,37 @@
++from contextlib import redirect_stdout
++import io
++from pathlib import Path
++import shutil
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from scroll_to_ome import tifs2zarr
++
++
++class MissingSliceTests(unittest.TestCase):
++    def test_real_scroll_slices_keep_their_depth(self):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        for indexes in ((0, 2), (0, 1, 2), (1, 2)):
++            with self.subTest(indexes=indexes), tempfile.TemporaryDirectory() as directory:
++                root = Path(directory)
++                source = root / 'tiffs'
++                source.mkdir()
++                expected = np.zeros((3, 32, 32), dtype=np.uint8)
++                for index in indexes:
++                    image = fixture / f'{index:02}.tif'
++                    shutil.copyfile(image, source / image.name)
++                    expected[index] = tifffile.imread(image)
++                with redirect_stdout(io.StringIO()):
++                    result = tifs2zarr(source, root / 'out.zarr', 1)
++                self.assertIsNone(result)
++                np.testing.assert_array_equal(zarr.open(str(root / 'out.zarr'), mode='r')[:], expected)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_scroll_to_ome_ranges.py b/tests/test_scroll_to_ome_ranges.py
+new file mode 100644
+index 0000000..3b6595e
+--- /dev/null
++++ b/tests/test_scroll_to_ome_ranges.py
+@@ -0,0 +1,38 @@
++from contextlib import redirect_stdout
++import io
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from scroll_to_ome import tifs2zarr
++
++
++class CropTests(unittest.TestCase):
++    def test_real_scroll_ranges(self):
++        source = Path(__file__).parent / 'data/PHerc0800'
++        original = np.stack([tifffile.imread(p) for p in sorted(source.glob('*.tif'))])
++        cases = [
++            (slice(3, 18), None, None),
++            (None, slice(5, 23), None),
++            (slice(3, 18), slice(5, 23), None),
++            (None, None, slice(1, 3)),
++            (None, None, None),
++        ]
++        for slices in cases:
++            with self.subTest(slices=slices), tempfile.TemporaryDirectory() as directory:
++                output = Path(directory) / 'crop.zarr'
++                with redirect_stdout(io.StringIO()):
++                    result = tifs2zarr(source, output, 2, slices=slices)
++                self.assertIsNone(result)
++                x, y, z = [s if s is not None else slice(None) for s in slices]
++                np.testing.assert_array_equal(zarr.open(str(output), mode='r')[:], original[z, y, x])
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_scroll_to_ome_uint8.py b/tests/test_scroll_to_ome_uint8.py
+new file mode 100644
+index 0000000..6447947
+--- /dev/null
++++ b/tests/test_scroll_to_ome_uint8.py
+@@ -0,0 +1,41 @@
++from contextlib import redirect_stdout
++import io
++from pathlib import Path
++import shutil
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from scroll_to_ome import tifs2zarr
++
++
++class ByteConversionTests(unittest.TestCase):
++    def test_real_uint16_crop_is_divided_once(self):
++        fixture = Path(__file__).parent / 'data/PHercParis4/00000.tif'
++        image = tifffile.imread(fixture)
++        for planes in (1, 3, 4):
++            for obytes in (0, 1):
++                with self.subTest(planes=planes, obytes=obytes), tempfile.TemporaryDirectory() as directory:
++                    root = Path(directory)
++                    source = root / 'tiffs'
++                    source.mkdir()
++                    for index in range(planes):
++                        shutil.copyfile(fixture, source / f'{index:05}.tif')
++                    with redirect_stdout(io.StringIO()):
++                        result = tifs2zarr(source, root / 'out.zarr', 2, obytes=obytes)
++                    self.assertIsNone(result)
++                    expected = np.stack([image] * planes)
++                    if obytes == 1:
++                        expected = (expected // 256).astype(np.uint8)
++                    actual = zarr.open(str(root / 'out.zarr'), mode='r')
++                    self.assertEqual(actual.dtype, expected.dtype)
++                    np.testing.assert_array_equal(actual[:], expected)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/tests/test_window_bounds.py b/tests/test_window_bounds.py
+new file mode 100644
+index 0000000..dda944a
+--- /dev/null
++++ b/tests/test_window_bounds.py
+@@ -0,0 +1,84 @@
++from contextlib import redirect_stdout
++import io
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++import numpy as np
++from numcodecs import Blosc
++import tifffile
++import zarr
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from zarr_to_ome import zarr2zarr
++
++
++class WindowBoundsTests(unittest.TestCase):
++    def test_real_ct_windows_copy_only_source_coordinates(self):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        image = np.stack([tifffile.imread(path) for path in sorted(fixture.glob('*.tif'))])
++        cases = [
++            ('upper-x', (0, 40), (0, 0, 0)),
++            ('upper-all', (0, 40), (0, 0, 0)),
++            ('upper-border', (31, 40), (0, 0, 0)),
++            ('fully-outside', (40, 44), (0, 0, 0)),
++            ('upper-x-negative-shift', (20, 40), (-24, 0, 0)),
++            ('inside-shifted', (0, 20), (8, 0, 0)),
++            ('identity', None, (0, 0, 0)),
++            ('inside-negative-shift', (4, 20), (-4, 0, 0)),
++        ]
++        for compressed in (False, True):
++            for ome in (False, True):
++                for chunk in (4, 16):
++                    for name, bounds, shift_xyz in cases:
++                        with self.subTest(case=name, compressed=compressed, ome=ome, chunk=chunk), tempfile.TemporaryDirectory() as directory:
++                            slices_xyz = [slice(*bounds) if bounds else None, None, None]
++                            if name == 'upper-all':
++                                slices_xyz[1:] = [slice(0, 35), slice(0, 5)]
++                            shift = shift_xyz[::-1]
++                            slices = slices_xyz[::-1]
++                            starts = [part.start if part and part.start is not None else 0 for part in slices]
++                            stops = [part.stop if part and part.stop is not None else size for part, size in zip(slices, image.shape)]
++                            shape = tuple(max(0, stop + offset) for stop, offset in zip(stops, shift))
++                            coords = [np.arange(size) - offset for size, offset in zip(shape, shift)]
++                            valid = [(coord >= 0) & (coord < size) & (coord >= start) & (coord < stop) for coord, size, start, stop in zip(coords, image.shape, starts, stops)]
++                            mask = valid[0][:, None, None] & valid[1][None, :, None] & valid[2][None, None, :]
++                            expected = np.where(mask, image[np.ix_(*(np.clip(coord, 0, size - 1) for coord, size in zip(coords, image.shape)))], 0)
++                            path = Path(directory)
++                            source = path / 'source.zarr'
++                            if ome:
++                                zarr.group(str(source))
++                            array = zarr.open(str(source / '0' if ome else source), mode='w', shape=image.shape, chunks=(2, 8, 8), dtype=image.dtype, compressor=Blosc() if compressed else None)
++                            array[:] = image
++                            with redirect_stdout(io.StringIO()):
++                                error = zarr2zarr(str(source), path / 'output.zarr', shift=shift_xyz, slices=slices_xyz, chunk_size=chunk)
++                            self.assertIsNone(error)
++                            actual = zarr.open(str(path / 'output.zarr'), mode='r')[:]
++                            np.testing.assert_array_equal(actual, expected)
++
++
++    def test_multichannel_ct_window_uses_the_selected_source_extent(self):
++        fixture = Path(__file__).parent / 'data/PHerc0800'
++        image = np.stack([tifffile.imread(path) for path in sorted(fixture.glob('*.tif'))])
++        channels = np.stack((image[:-1], image[1:]))
++        expected = np.pad(channels[1], ((0, 0), (0, 0), (0, 8)))
++        for compressed in (False, True):
++            for ome in (False, True):
++                for chunk in (4, 16):
++                    with self.subTest(compressed=compressed, ome=ome, chunk=chunk), tempfile.TemporaryDirectory() as directory:
++                        path = Path(directory)
++                        source = path / 'source.zarr'
++                        if ome:
++                            zarr.group(str(source))
++                        array = zarr.open(str(source / '0' if ome else source), mode='w', shape=channels.shape, chunks=(1, 2, 8, 8), dtype=image.dtype, compressor=Blosc() if compressed else None)
++                        array[:] = channels
++                        with redirect_stdout(io.StringIO()):
++                            error = zarr2zarr(str(source), path / 'output.zarr', slices=(slice(0, 40), None, None), chunk_size=chunk, channel=1)
++                        self.assertIsNone(error)
++                        actual = zarr.open(str(path / 'output.zarr'), mode='r')[:]
++                        np.testing.assert_array_equal(actual, expected)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/zarr_to_ome.py b/zarr_to_ome.py
+index 39d0dbf..3e0a71b 100644
+--- a/zarr_to_ome.py
++++ b/zarr_to_ome.py
+@@ -11,7 +11,7 @@ import zarr
+ import fsspec
+ import warnings
+ from numcodecs.registry import codec_registry
+-import skimage.transform
++from downsample import process_chunk
+ from tqdm import tqdm
+ from concurrent.futures import ThreadPoolExecutor
+ from multiprocessing import cpu_count
+@@ -369,7 +369,7 @@ def zarr2zarr(izarrdir, ozarrdir, shift=(0,0,0), slices=(None,None,None), chunk_
+     # that should be copied to the output grid, 
+     # in shifted (output-grid) coordinates
+     cs0 = [max(os0[i], iws0[i]) for i in range(3)]
+-    cs1 = [min(os1[i], iws1[i]) for i in range(3)]
++    cs1 = [min(os1[i], iws1[i], ishape[i] + shift[i]) for i in range(3)]
+ 
+     store = zarr.NestedDirectoryStore(ozarrdir)
+     ozarr = zarr.open(
+@@ -407,40 +407,6 @@ def zarr2zarr(izarrdir, ozarrdir, shift=(0,0,0), slices=(None,None,None), chunk_
+                     ozarr[o0[0]:o1[0], o0[1]:o1[1], o0[2]:o1[2]] = czarr[i0[0]:i1[0], i0[1]:i1[1], i0[2]:i1[2]] // divisor
+ 
+ 
+-def process_chunk(args):
+-    idata, odata, z, y, x, cz, cy, cx, algorithm = args
+-    ibuf = idata[2*z*cz:(2*z*cz+2*cz),
+-                 2*y*cy:(2*y*cy+2*cy),
+-                 2*x*cx:(2*x*cx+2*cx)]
+-    if np.max(ibuf) == 0:
+-        return  # Skip if the block is empty to save computation
+-
+-    # pad ibuf to even in all directions
+-    ibs = ibuf.shape
+-    pad = (ibs[0]%2, ibs[1]%2, ibs[2]%2)
+-    if any(pad):
+-        ibuf = np.pad(ibuf, 
+-                      ((0,pad[0]),(0,pad[1]),(0,pad[2])), 
+-                      mode="symmetric")
+-
+-    # algorithms:
+-    if algorithm == "nearest":
+-        obuf = ibuf[::2, ::2, ::2]
+-    elif algorithm == "gaussian":
+-        obuf = np.round(skimage.transform.rescale(ibuf, .5, preserve_range=True))
+-    elif algorithm == "mean":
+-        obuf = np.round(skimage.transform.downscale_local_mean(ibuf, (2,2,2)))
+-    elif algorithm == "max":
+-        s = ibuf.shape
+-        ibuf = ibuf.reshape((s[0]//2,2,s[1]//2,2,s[2]//2,2))
+-        obuf = np.max(ibuf, axis=(1,3,5))
+-    else:
+-        raise ValueError(f"algorithm {algorithm} not valid")
+-
+-    odata[z*cz:(z*cz+cz),
+-          y*cy:(y*cy+cy),
+-          x*cx:(x*cx+cx)] = np.round(obuf)
+-
+ def resize(zarrdir, old_level, num_threads, algorithm="mean"):
+     idir = zarrdir / ("%d"%old_level)
+     if not idir.exists():
