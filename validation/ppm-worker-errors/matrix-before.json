@@ -1,0 +1,42 @@
+[
+  {
+    "input": "array-valid",
+    "exit_code": 0,
+    "layer_files": 1,
+    "stack_written": true,
+    "decompression_error_reported": false,
+    "nonzero_pixels": 16,
+    "layer_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d",
+    "expected_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  },
+  {
+    "input": "array-corrupt",
+    "exit_code": 0,
+    "layer_files": 1,
+    "stack_written": true,
+    "decompression_error_reported": false,
+    "nonzero_pixels": 0,
+    "layer_pixels_sha256": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925",
+    "expected_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  },
+  {
+    "input": "group-valid",
+    "exit_code": 0,
+    "layer_files": 1,
+    "stack_written": true,
+    "decompression_error_reported": false,
+    "nonzero_pixels": 16,
+    "layer_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d",
+    "expected_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  },
+  {
+    "input": "group-corrupt",
+    "exit_code": 0,
+    "layer_files": 1,
+    "stack_written": true,
+    "decompression_error_reported": false,
+    "nonzero_pixels": 0,
+    "layer_pixels_sha256": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925",
+    "expected_pixels_sha256": "4be5e4d1ef6d888eac9591bc35018f571c6d878728d8ae95686f3df7f283692d"
+  }
+]

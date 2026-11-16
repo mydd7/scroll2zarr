@@ -1,0 +1,43 @@
+{
+  "baseline_commit": "56c0bd9c83ea071ef41210497ba5faacebb01613",
+  "source_branch": "fix/ppm-worker-errors",
+  "source_commit": "0f52baf2e9e7e71177481440d637259e5f997243",
+  "data": "PHerc0800 rendered CT crop: tests/data/PHerc0800/source.json",
+  "geometry": "Generated 4 x 4 planar PPM at z=1, x=y=4..7, with +z normals; not an extracted scroll surface",
+  "corruption": "A compressed chunk from that crop is truncated to its first eight bytes in a temporary copy",
+  "standalone_tests": {
+    "methods": 2,
+    "subcases": 24,
+    "valid_cases": 12,
+    "corrupt_cases": 12,
+    "before_failed_subcases": 12,
+    "after_failed_subcases": 0,
+    "command": "python -W ignore -m unittest discover -s tests -p test_ppm_worker_errors.py -v"
+  },
+  "matrix": {
+    "cases_per_phase": 4,
+    "block_size": 2,
+    "stack_requested": true,
+    "before": "matrix-before.json",
+    "after": "matrix-after.json"
+  },
+  "combined": {
+    "branch": "local/validate-converters",
+    "commit": "7cf9138fbdcde8c8739b17e9d440596aa56bd907",
+    "tree_sha": "02d32e4ecb30b3fd904a2acf8d13cd0c91f36656",
+    "contributions": 7,
+    "test_methods": 8,
+    "real_ct_subcases": 131,
+    "transformation_controls": 16,
+    "reproduction_patch_sha256": "4a7b0e993baa45425c8147727ce70cce27b0b91b86704f14cd340de0b86ae54f"
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.10"
+  },
+  "limits": [
+    "Linux and macOS were not run",
+    "The empty output directory may remain after failure",
+    "Existing files in an output directory are not removed"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "README.txt": "631e7a74b1d09b52ecc9f790ffc979d6a95956ae4d48828700dd86a80d33b29c",
+  "validation.json": "1bdfb73ee68fa6e445a690dc38bad96896424301f537ddab1efeab92da9ceeac",
+  "matrix-before.json": "5188b8a1e513af77116a9bbbc2c6421f48cfcab97cdcae804abe1c60cd68b543",
+  "matrix-after.json": "d3600e670b87087fe3ab819de8e5d5c9a25dc15001b15be95592d24da936b40d",
+  "combined-validation.patch": "4a7b0e993baa45425c8147727ce70cce27b0b91b86704f14cd340de0b86ae54f"
+}
